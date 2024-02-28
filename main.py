@@ -39,3 +39,5 @@ controller.add_writer(writer1)
 @app.get("/bookinfo", tags=['Book'])
 async def get_book_info(id:int) -> dict:
     return {"Book's info": controller.show_book_info(id)}
+
+print("eiei")
