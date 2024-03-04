@@ -11,10 +11,10 @@ from Book_class import Book
 from Review_class import Review
 from Promotion_class import Promotion
 
-app = FastAPI()
+# app = FastAPI()
 
-if __name__ == "__main__":
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, log_level="info")
+# if __name__ == "__main__":
+#     uvicorn.run("main:app", host="127.0.0.1", port=8000, log_level="info")
     
 controller = Controller()
 
@@ -71,14 +71,14 @@ reader1.update_book_collection_list(book1)
 writer1.adding_coin = 10
 reader1.adding_coin = 2000
 
-@app.get("/bookinfo", tags=['Book'])
-async def get_book_info(id:int) -> dict:
-    return {"Book's info": controller.show_book_info(id)}
+# @app.get("/bookinfo", tags=['Book'])
+# async def get_book_info(id:int) -> dict:
+#     return {"Book's info": controller.show_book_info(id)}
 
-@app.post("/transfer", tags=['money'])
-async def transfer_coin_to_money(writer_id:int, data: coinInput):
-    return {controller.transfer(writer_id, data.coin)}
+# @app.post("/transfer", tags=['money'])
+# async def transfer_coin_to_money(writer_id:int, data: coinInput):
+#     return {controller.transfer(writer_id, data.coin)}
 
-@app.post("/rent", tags=['Cart'])
-async def rent(reader_id: int, data: BookIdList):
-    return {"rent": controller.rent(reader_id, data.book_id)}
+# @app.post("/rent", tags=['Cart'])
+# async def rent(reader_id: int, data: BookIdList):
+#     return {"rent": controller.rent(reader_id, data.book_id)}

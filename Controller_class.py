@@ -115,7 +115,8 @@ class Controller:
                 if self.search_book(id) is not None:
                     book = self.search_book(id)
                     book.update_book_status()
-                    sum_price += book.price_coin  
+                    book.num_of_reader = 1
+                    sum_price += (book.price_coin*0.8)
                     account.update_book_collection_list(book)
                 else: return "Not found book"
                 
@@ -124,7 +125,7 @@ class Controller:
                 date_time = datetime.datetime.now()
                 account.update_coin_transaction_history_list(sum_price, date_time, "Rent")
                 return "Success"
-            return "Not have coin enough"
+            return "Don't have coin enough"
         return "Not found account"
     
     def search_book_by_promotion(self, promotion_name):
