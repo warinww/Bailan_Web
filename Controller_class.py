@@ -1,3 +1,6 @@
+import datetime
+from Book_status_class import BookStatus
+
 class Controller:
     def __init__(self):
         self.__reader_list = []
@@ -5,6 +8,7 @@ class Controller:
         self.__complain_list = []
         self.__book_list = []
         self.__payment_method_list = []
+        self.__promotion_list = []
 
     @property
     def reader_list(self):
@@ -25,6 +29,10 @@ class Controller:
     @property
     def payment_method_list(self):
         return self.__payment_method_list
+    
+    @property
+    def promotion_list(self):
+        return self.__promotion_list
 
     def add_reader(self, reader):
         self.__reader_list.append(reader)
@@ -40,28 +48,45 @@ class Controller:
 
     def add_payment_method(self, payment_method):
         self.__payment_method_list.append(payment_method)
+        
+    def add_promotion_list(self, promotion):
+        self.__promotion_list.append(promotion)
+    
+    # need method that check end date time of promotion then delete it from promotion list!!!
+    def remove_promotion_list(self, promotion):
+        self.__promotion_list.remove(promotion)
 
     def search_book(self, book_id):
         for book in self.__book_list:
             if book.id == book_id:
                 return book
         return None
+    
+    def search_reader(self, reader_id):
+        for reader in self.__reader_list:
+            if reader.id_account == reader_id:
+                return reader
+        return None
+    
+    def search_writer(self, writer_id):
+        for writer in self.__writer_list:
+            if writer.id_account == writer_id:
+                return writer
+        return None
 
     def top_up(self, account_id, amount):
-        for account in self.__account_list:
-            if account.id == account_id:
-                account.balance += amount
-                return True
+        if self.search_reader(account_id) is not None:
+            account = self.search_reader(account_id)
+            account.balance += amount
+            return True
         return False
 
     def show_book_info(self, book_id):
-        for book in self.__book_list:
-            if book.id == book_id:
-                format = [f'name : {book.name}', f'writer : {book.writer.account_name}', f'type : {book.book_type}', f'intro : {book.intro}', f'promotion : {book.promotion.show_info()}', f'rating: {book.review.rating}', f'{book.review.show_comment()}']
-                return format
-            return 'Not Found'
+        if self.search_book(book_id) is not None:
+            book = self.search_book(book_id)
+            # format = [f'name : {book.name}', f'writer : {book.writer.account_name}', f'type : {book.book_type}', f'intro : {book.intro}', f'promotion : {book.promotion.show_info()}', f'rating: {book.review.rating}', f'{book.review.show_comment()}']
+            return book
         return 'Not Found'
-
                 
     def login(self, username, password):
         for account in self.__account_list:
@@ -69,12 +94,44 @@ class Controller:
                 return account
         return None
 
-    def transfer(self, sender_account_id, receiver_account_id, amount):
-        sender_account = self.login(sender_account_id, None)
-        receiver_account = self.login(receiver_account_id, None)
-        if sender_account and receiver_account:
-            if sender_account.balance >= amount:
-                sender_account.balance -= amount
-                receiver_account.balance += amount
-                return True
-        return False
+    def transfer(self, writer_id, coin):
+        if self.search_writer(writer_id) is not None:
+            account = self.search_writer(writer_id)
+            if account.coin >= coin:
+                money = coin*2
+                date_time = datetime.datetime.now()
+                account.money = money
+                account.losing_coin = coin
+                account.update_coin_transaction_history_list(coin, date_time, "Transfer")
+                return "Success"
+            return "You don't have enough coin"
+        return "Not found your account"
+    
+    def rent(self, reader_id, book_id_list):
+        if self.search_reader(reader_id) is not None:
+            account = self.search_reader(reader_id)
+            sum_price = 0
+            for id in book_id_list:
+                if self.search_book(id) is not None:
+                    book = self.search_book(id)
+                    book.update_book_status()
+                    sum_price += book.price_coin  
+                    account.update_book_collection_list(book)
+                else: return "Not found book"
+                
+            if account.coin >= sum_price:
+                account.losing_coin = sum_price
+                date_time = datetime.datetime.now()
+                account.update_coin_transaction_history_list(sum_price, date_time, "Rent")
+                return "Success"
+            return "Not have coin enough"
+        return "Not found account"
+    
+    def search_book_by_promotion(self, promotion_name):
+        for promotion in self.__promotion_list:
+            if promotion.name_festival == promotion_name:
+                books = []
+                for book in promotion.book_list:
+                    books.append(f'book: {book.name} price: {book.price_coin}')
+                return books
+        return "Not found this promotion"

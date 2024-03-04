@@ -1,4 +1,5 @@
-from Account_class import Writer
+from Book_status_class import BookStatus
+import datetime
 
 class Book:
     def __init__(self, name, id, writer, book_type, price_coin, intro, content):
@@ -12,6 +13,7 @@ class Book:
         self.__review = None
         self.__promotion = None
         self.__num_of_reader = 0
+        self.__book_status = None
 
     @property
     def name(self):
@@ -52,18 +54,30 @@ class Book:
     @property
     def promotion(self):
         return self.__promotion
-
-    @promotion.setter
-    def promotion(self, new_promotion):
-        self.__promotion = new_promotion
-        
-        if self.__promotion.discount > 0 and self.__promotion.discount <= 100:
-            self.__price_coin *= 1-(self.__promotion.discount*0.01)
-
+    
     @property
     def num_of_reader(self):
         return self.__num_of_reader
+    
+    @property
+    def book_status(self):
+        return self.__book_status
+    
+    @promotion.setter
+    def promotion(self, new_promotion):
+        self.__promotion = new_promotion
+    
+    @price_coin.setter
+    def coin(self):
+        if self.__promotion is not None:
+            if self.__promotion.discount > 0 and self.__promotion.discount <= 100:
+                self.__price_coin *= 1-(self.__promotion.discount*0.01)
 
     @num_of_reader.setter
     def num_of_reader(self, new_num_of_reader):
         self.__num_of_reader += new_num_of_reader
+        
+    def update_book_status(self):
+        start = datetime.datetime.now()
+        end = start + datetime.timedelta(days=7)
+        self.__book_status = BookStatus(start, end, "Rent")

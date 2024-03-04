@@ -1,20 +1,37 @@
 TEST show_book_info
 
-reader1 = Reader("John", "Doe", "1")
-reader2 = Reader("May", "Da", "2")
-writer1 = Writer("write", "it", "1")
-book = Book("Great Book", 1, writer1, "Fiction", 100, "intro", "Content")
-book.review = Review(reader1, book, "2024-02-28 10:00:00")
-book.review = Review(reader2, book, '0')
-
-book.review.add_comment(reader1, "I really enjoyed this book!")
-book.review.add_comment(reader2, "Highly recommend it.")
-book.review.add_comment(reader1, "A must-read for everyone!")
-book.review.add_rating(5)
-book.review.add_rating(4)
-
 book.promotion = Promotion("valentine", 10, book)
 
 controller.add_book(book)
 
 print(controller.show_book_info(1))
+
+-------------------------------------------------
+
+TEST transfer
+
+print(writer1.coin)
+print(controller.transfer(1, 5))
+print(writer1.coin)
+print(writer1.money)
+for info in writer1.coin_transaction_history_list:
+    print(info)
+
+-------------------------------------------------
+
+TEST rent
+
+print(controller.rent(1, [1,2,3,4,5]))
+for book in reader1.book_collection_list:
+    print(book.name)
+    print(book.book_status)
+print(reader1.coin)
+for info in reader1.coin_transaction_history_list:
+    print(info)
+
+-------------------------------------------------
+
+TEST find book from promotion
+
+print(controller.search_book_by_promotion("valentine"))
+print(controller.search_book_by_promotion("new year"))
