@@ -4,6 +4,7 @@ from typing import List
 from fastapi import FastAPI
 from BaseModel_class import coinInput, BookIdList
 import uvicorn
+import os
 from Controller_class import Controller
 from Account_class import Reader, Writer
 from Book_class import Book
@@ -43,7 +44,6 @@ book2.review.add_comment(reader1, "A must-read for everyone!")
 book1.review.add_rating(5)
 book2.review.add_rating(4)
 
-
 promotion1.add_book_list(book1)
 promotion1.add_book_list(book2)
 promotion2.add_book_list(book3)
@@ -63,13 +63,13 @@ controller.add_reader(reader5)
 
 controller.add_writer(writer1)
 
-writer1.adding_coin = 10
-reader1.adding_coin = 2000
-
 controller.add_promotion_list(promotion1)
 controller.add_promotion_list(promotion2)
 
 reader1.update_book_collection_list(book1)
+
+writer1.adding_coin = 10
+reader1.adding_coin = 2000
 
 @app.get("/bookinfo", tags=['Book'])
 async def get_book_info(id:int) -> dict:
