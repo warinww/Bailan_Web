@@ -1,1 +1,0 @@
-print(controller.show_book_info(1))

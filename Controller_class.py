@@ -62,12 +62,8 @@ class Controller:
     def add_promotion_list(self, promotion):
         self.__promotion_list.append(promotion)
         for prom in self.__promotion_list:
-            if datetime.datime.now() > prom.end_date_time:
+            if datetime.datetime.now() > prom.end_date_time:
                 self.__promotion_list.remove(prom)
-    
-    # need method that check end date time of promotion then delete it from promotion list!!!
-    def remove_promotion_list(self, promotion):
-        self.__promotion_list.remove(promotion)
 
     def search_book(self, book_id):
         for book in self.__book_list:
@@ -97,11 +93,8 @@ class Controller:
     def show_book_info(self, book_id):
         if self.search_book(book_id) is not None:
             book = self.search_book(book_id)
-            if book.pormotion is not None:
-                format = [f'name : {book.name}', f'writer : {book.writer.account_name}', f'type : {book.book_type}', f'intro : {book.intro}', f'promotion : {book.promotion.show_info()}', f'rating: {book.review.rating}', f'{book.review.show_comment()}']
-            else:
-                format = [f'name : {book.name}', f'writer : {book.writer.account_name}', f'type : {book.book_type}', f'intro : {book.intro}', f'rating: {book.review.rating}', f'{book.review.show_comment()}']
-            return format
+            # format = [f'name : {book.name}', f'writer : {book.writer.account_name}', f'type : {book.book_type}', f'intro : {book.intro}', f'promotion : {book.promotion.show_info()}', f'rating: {book.review.rating}', f'{book.review.show_comment()}']
+            return book
         return 'Not Found'
                 
     def login(self, username, password):
@@ -156,11 +149,15 @@ class Controller:
     def add_rating(self, book_id, rating):
         if self.search_book(book_id) is not None:
             book = self.search_book(book_id)
-            if book.review is None:
-                book.review = Review()
             if rating < 0 or rating >5:
                 return "Please rate this book in 0-5"
             else:
                 book.review.add_rating(rating)
                 return "Success"
         return "Not found book"
+    
+    def show_promotion(self):
+        promotions = []
+        for promotion in self.__promotion_list:
+            promotions.append(f'promotion: {promotion.name_festival}')
+        return promotions

@@ -2,7 +2,7 @@ import datetime
 
 class Review:
     def __init__(self):
-        self.__rating = None
+        self.__rating = 0
         self.__rating_list = []
         self.__comment_list = []
         

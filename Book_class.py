@@ -1,4 +1,5 @@
 from Book_status_class import BookStatus
+from Review_class import Review
 import datetime
 
 class Book:
@@ -10,7 +11,7 @@ class Book:
         self.__price_coin = price_coin
         self.__intro = intro
         self.__content = content
-        self.__review = None
+        self.__review = Review()
         self.__promotion = None
         self.__num_of_reader = 0
         self.__book_status = None
@@ -66,10 +67,6 @@ class Book:
     @writer.setter
     def writer(self, writer):
         self.__writer = writer
-        
-    @review.setter
-    def review(self, new_review):
-        self.__review = new_review
     
     @promotion.setter
     def promotion(self, new_promotion):
