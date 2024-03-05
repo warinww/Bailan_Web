@@ -60,6 +60,9 @@ class Controller:
         
     def add_promotion_list(self, promotion):
         self.__promotion_list.append(promotion)
+        for prom in self.__promotion_list:
+            if datetime.datime.now() > prom.end_date_time:
+                self.__promotion_list.remove(prom)
     
     # need method that check end date time of promotion then delete it from promotion list!!!
     def remove_promotion_list(self, promotion):

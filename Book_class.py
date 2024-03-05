@@ -1,5 +1,4 @@
 from Book_status_class import BookStatus
-from Review_class import Review
 import datetime
 
 class Book:

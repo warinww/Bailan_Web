@@ -1,12 +1,12 @@
-from Book_class import Book
+import datetime
 
 class Promotion:
-    def __init__(self, name_festival, discount, start_date_time = None, end_date_time = None):
+    def __init__(self, name_festival, discount, period):
         self.__name_festival = name_festival
         self.__discount = discount
         self.__book_list = []
-        self.__start_date_time = start_date_time
-        self.__end_date_time = end_date_time
+        self.__start_date_time = datetime.datetime.now()
+        self.__end_date_time = self.__start_date_time + datetime.timedelta(days=period)
 
     @property
     def name_festival(self):

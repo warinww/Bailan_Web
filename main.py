@@ -32,8 +32,8 @@ book3 = Book("Japan Book", "Non-fiction", 300, "intro", "Content")
 book4 = Book("Code Book", "Non-fiction", 400, "intro", "Content")
 book5 = Book("Food Book", "Non-fiction", 500, "intro", "Content")
 
-promotion1 = Promotion("valentine", 10)
-promotion2 = Promotion("new year", 15)
+promotion1 = Promotion("valentine", 10, 7)
+promotion2 = Promotion("new year", 15, 7)
 
 # book1.review.add_comment(reader1, "I really enjoyed this book!")
 # book1.review.add_comment(reader2, "Highly recommend it.")
@@ -65,10 +65,10 @@ controller.add_rating(2, 3)
 # controller.add_promotion_list(promotion2)
 
 # ------------------------------------------
-# reader1.update_book_collection_list(book1)
+reader1.update_book_collection_list(book1)
 
-# writer1.adding_coin = 10
-# reader1.adding_coin = 2000
+writer1.adding_coin = 10
+reader1.adding_coin = 2000
 # ------------------------------------------
 
 @app.get("/bookinfo", tags=['Book'])
@@ -82,6 +82,10 @@ async def transfer_coin_to_money(writer_id:int, data: coinInput):
 @app.post("/rent", tags=['Cart'])
 async def rent(reader_id: int, data: BookIdList):
     return {"rent": controller.rent(reader_id, data.book_id)}
+
+@app.get("/bookfrompromotion", tags=['Book'])
+async def get_book_by_promotion(promotion:str) -> dict:
+    return {"Book in this promotion": controller.search_book_by_promotion(promotion)}
 
 @app.post("/rating", tags=['Review'])
 async def add_rating(book_id: int, rating: int):
