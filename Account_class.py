@@ -2,10 +2,9 @@ from Payment_history_class import PaymentHistory
 from Coin_transaction_class import Coin_transaction
 
 class Account:
-    def __init__(self, account_name, password, id_account):
+    def __init__(self, account_name, password):
         self.__account_name = account_name
         self.__password = password
-        self.__id_account = id_account
 
     @property
     def account_name(self):
@@ -20,13 +19,18 @@ class Account:
         return self.__id_account
 
 class Reader(Account):
-    def __init__(self, account_name, password, id_account):
-        super().__init__(account_name, password, id_account)
+    def __init__(self, account_name, password):
+        super().__init__(account_name, password)
+        self.__id_account = 0
         self.__book_collection_list = []
         self.__cart_list = []
         self.__coin = 0
         self.__payment_history_list = []
         self.__coin_transaction_history_list = []
+
+    @property
+    def id_account(self):
+        return self.__id_account
 
     @property
     def book_collection_list(self):
@@ -47,6 +51,10 @@ class Reader(Account):
     @property
     def coin_transaction_history_list(self):
         return self.__coin_transaction_history_list
+    
+    @id_account.setter
+    def id_account(self, id_account):
+        self.__id_account = id_account
 
     @coin.setter
     def adding_coin(self, adding_coin):
@@ -69,12 +77,17 @@ class Reader(Account):
         self.__cart_list.append(book)
 
 class Writer(Account):
-    def __init__(self, account_name, password, id_account):
-        super().__init__(account_name, password, id_account)
+    def __init__(self, account_name, password):
+        super().__init__(account_name, password)
+        self.__id_account = 0
         self.__book_collection_list = []
         self.__coin = 0
         self.__money = 0
         self.__coin_transaction_history_list = []
+
+    @property
+    def id_account(self):
+        return self.__id_account
 
     @property
     def coin(self):
@@ -86,11 +99,15 @@ class Writer(Account):
 
     @property
     def book_collection_list(self):
-        return self.book_collection_list
+        return self.__book_collection_list
     
     @property
     def coin_transaction_history_list(self):
         return self.__coin_transaction_history_list
+    
+    @id_account.setter
+    def id_account(self, id_account):
+        self.__id_account = id_account
     
     @money.setter
     def money(self, adding_money):

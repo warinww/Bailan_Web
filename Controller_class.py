@@ -1,5 +1,5 @@
 import datetime
-from Book_status_class import BookStatus
+from Review_class import Review
 
 class Controller:
     def __init__(self):
@@ -9,6 +9,8 @@ class Controller:
         self.__book_list = []
         self.__payment_method_list = []
         self.__promotion_list = []
+        self.__num_of_book = 0
+        self.__num_of_account = 0
 
     @property
     def reader_list(self):
@@ -35,16 +37,23 @@ class Controller:
         return self.__promotion_list
 
     def add_reader(self, reader):
+        self.__num_of_account += 1
+        reader.id_account = self.__num_of_account
         self.__reader_list.append(reader)
         
     def add_writer(self, writer):
+        self.__num_of_account += 1
+        writer.id_account = self.__num_of_account
         self.__writer_list.append(writer)
 
     def add_complain(self, complain):
         self.__complain_list.append(complain)
 
-    def add_book(self, book):
+    def upload_book(self, book, writer):
+        self.__num_of_book += 1
+        book.id = self.__num_of_book
         self.__book_list.append(book)
+        writer.book_collection_list.append(book)
 
     def add_payment_method(self, payment_method):
         self.__payment_method_list.append(payment_method)
@@ -136,3 +145,15 @@ class Controller:
                     books.append(f'book: {book.name} price: {book.price_coin}')
                 return books
         return "Not found this promotion"
+    
+    def add_rating(self, book_id, rating):
+        if self.search_book(book_id) is not None:
+            book = self.search_book(book_id)
+            if book.review is None:
+                book.review = Review()
+            if rating < 0 or rating >5:
+                return "Please rate this book in 0-5"
+            else:
+                book.review.add_rating(rating)
+                return "Success"
+        return "Not found book"

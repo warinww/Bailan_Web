@@ -11,49 +11,44 @@ from Book_class import Book
 from Review_class import Review
 from Promotion_class import Promotion
 
-# app = FastAPI()
+app = FastAPI()
 
-# if __name__ == "__main__":
-#     uvicorn.run("main:app", host="127.0.0.1", port=8000, log_level="info")
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, log_level="info")
     
 controller = Controller()
 
-book1 = Book("Great Book", 1, "writer1", "Fiction", 100, "intro", "Content")
-book2 = Book("Thai Book", 2, "writer1", "Non-fiction", 200, "intro", "Content")
-book3 = Book("Japan Book", 3, "writer1", "Non-fiction", 300, "intro", "Content")
-book4 = Book("Code Book", 4, "writer1", "Non-fiction", 400, "intro", "Content")
-book5 = Book("Food Book", 5, "writer1", "Non-fiction", 500, "intro", "Content")
+reader1 = Reader("Min", "Do")
+reader2 = Reader("May", "Da")
+reader3 = Reader("Moo", "Di")
+reader4 = Reader("Mer", "De")
+reader5 = Reader("Muc", "Du")
 
-reader1 = Reader("John", "Doe", 1)
-reader2 = Reader("May", "Da", 2)
-reader3 = Reader("May", "Da", 3)
-reader4 = Reader("May", "Da", 4)
-reader5 = Reader("May", "Da", 5)
+writer1 = Writer("write", "it")
 
-writer1 = Writer("write", "it", 1)
+book1 = Book("Great Book", "Fiction", 100, "intro", "Content")
+book2 = Book("Thai Book", "Non-fiction", 200, "intro", "Content")
+book3 = Book("Japan Book", "Non-fiction", 300, "intro", "Content")
+book4 = Book("Code Book", "Non-fiction", 400, "intro", "Content")
+book5 = Book("Food Book", "Non-fiction", 500, "intro", "Content")
 
 promotion1 = Promotion("valentine", 10)
 promotion2 = Promotion("new year", 15)
 
-book1.review = Review(reader1, book1, "2024-02-28 10:00:00")
-book2.review = Review(reader2, book2, '0')
+# book1.review.add_comment(reader1, "I really enjoyed this book!")
+# book1.review.add_comment(reader2, "Highly recommend it.")
+# book2.review.add_comment(reader1, "A must-read for everyone!")
 
-book1.review.add_comment(reader1, "I really enjoyed this book!")
-book1.review.add_comment(reader2, "Highly recommend it.")
-book2.review.add_comment(reader1, "A must-read for everyone!")
-book1.review.add_rating(5)
-book2.review.add_rating(4)
+# promotion1.add_book_list(book1)
+# promotion1.add_book_list(book2)
+# promotion2.add_book_list(book3)
+# promotion2.add_book_list(book4)
 
-promotion1.add_book_list(book1)
-promotion1.add_book_list(book2)
-promotion2.add_book_list(book3)
-promotion2.add_book_list(book4)
-
-controller.add_book(book1)
-controller.add_book(book2)
-controller.add_book(book3)
-controller.add_book(book4)
-controller.add_book(book5)
+controller.upload_book(book1, writer1)
+controller.upload_book(book2, writer1)
+controller.upload_book(book3, writer1)
+controller.upload_book(book4, writer1)
+controller.upload_book(book5, writer1)
 
 controller.add_reader(reader1)
 controller.add_reader(reader2)
@@ -63,22 +58,31 @@ controller.add_reader(reader5)
 
 controller.add_writer(writer1)
 
-controller.add_promotion_list(promotion1)
-controller.add_promotion_list(promotion2)
+controller.add_rating(2, 1)
+controller.add_rating(2, 3)
 
-reader1.update_book_collection_list(book1)
+# controller.add_promotion_list(promotion1)
+# controller.add_promotion_list(promotion2)
 
-writer1.adding_coin = 10
-reader1.adding_coin = 2000
+# ------------------------------------------
+# reader1.update_book_collection_list(book1)
 
-# @app.get("/bookinfo", tags=['Book'])
-# async def get_book_info(id:int) -> dict:
-#     return {"Book's info": controller.show_book_info(id)}
+# writer1.adding_coin = 10
+# reader1.adding_coin = 2000
+# ------------------------------------------
 
-# @app.post("/transfer", tags=['money'])
-# async def transfer_coin_to_money(writer_id:int, data: coinInput):
-#     return {controller.transfer(writer_id, data.coin)}
+@app.get("/bookinfo", tags=['Book'])
+async def get_book_info(id:int) -> dict:
+    return {"Book's info": controller.show_book_info(id)}
 
-# @app.post("/rent", tags=['Cart'])
-# async def rent(reader_id: int, data: BookIdList):
-#     return {"rent": controller.rent(reader_id, data.book_id)}
+@app.post("/transfer", tags=['money'])
+async def transfer_coin_to_money(writer_id:int, data: coinInput):
+    return {controller.transfer(writer_id, data.coin)}
+
+@app.post("/rent", tags=['Cart'])
+async def rent(reader_id: int, data: BookIdList):
+    return {"rent": controller.rent(reader_id, data.book_id)}
+
+@app.post("/rating", tags=['Review'])
+async def add_rating(book_id: int, rating: int):
+    return {"rating": controller.add_rating(book_id, rating)}

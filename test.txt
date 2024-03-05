@@ -1,9 +1,7 @@
 TEST show_book_info
 
 book.promotion = Promotion("valentine", 10, book)
-
 controller.add_book(book)
-
 print(controller.show_book_info(1))
 
 -------------------------------------------------

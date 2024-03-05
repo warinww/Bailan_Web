@@ -1,11 +1,12 @@
 from Book_status_class import BookStatus
+from Review_class import Review
 import datetime
 
 class Book:
-    def __init__(self, name, id, writer, book_type, price_coin, intro, content):
+    def __init__(self, name, book_type, price_coin, intro, content):
         self.__name = name
-        self.__id = id
-        self.__writer = writer
+        self.__id = 0
+        self.__writer = None
         self.__book_type = book_type
         self.__price_coin = price_coin
         self.__intro = intro
@@ -46,10 +47,6 @@ class Book:
     @property
     def review(self):
         return self.__review
-    
-    @review.setter
-    def review(self, new_review):
-        self.__review = new_review
 
     @property
     def promotion(self):
@@ -62,6 +59,18 @@ class Book:
     @property
     def book_status(self):
         return self.__book_status
+    
+    @id.setter
+    def id(self, id):
+        self.__id = id
+        
+    @writer.setter
+    def writer(self, writer):
+        self.__writer = writer
+        
+    @review.setter
+    def review(self, new_review):
+        self.__review = new_review
     
     @promotion.setter
     def promotion(self, new_promotion):
