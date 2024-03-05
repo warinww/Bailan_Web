@@ -6,4 +6,3 @@ class coinInput(BaseModel):
     
 class BookIdList(BaseModel):
     book_id: List[int]
-    

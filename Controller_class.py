@@ -52,6 +52,7 @@ class Controller:
     def upload_book(self, book, writer):
         self.__num_of_book += 1
         book.id = self.__num_of_book
+        book.writer = writer
         self.__book_list.append(book)
         writer.book_collection_list.append(book)
 
@@ -96,8 +97,11 @@ class Controller:
     def show_book_info(self, book_id):
         if self.search_book(book_id) is not None:
             book = self.search_book(book_id)
-            # format = [f'name : {book.name}', f'writer : {book.writer.account_name}', f'type : {book.book_type}', f'intro : {book.intro}', f'promotion : {book.promotion.show_info()}', f'rating: {book.review.rating}', f'{book.review.show_comment()}']
-            return book
+            if book.pormotion is not None:
+                format = [f'name : {book.name}', f'writer : {book.writer.account_name}', f'type : {book.book_type}', f'intro : {book.intro}', f'promotion : {book.promotion.show_info()}', f'rating: {book.review.rating}', f'{book.review.show_comment()}']
+            else:
+                format = [f'name : {book.name}', f'writer : {book.writer.account_name}', f'type : {book.book_type}', f'intro : {book.intro}', f'rating: {book.review.rating}', f'{book.review.show_comment()}']
+            return format
         return 'Not Found'
                 
     def login(self, username, password):

@@ -5,7 +5,6 @@ class Review:
         self.__rating = None
         self.__rating_list = []
         self.__comment_list = []
-        self.__comment_dict = {}  # ใช้จัดรูปแบบข้อมูลก่อนแสดงผลเท่านั้
         
     @property
     def rating(self):

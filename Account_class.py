@@ -21,12 +21,17 @@ class Account:
 class Reader(Account):
     def __init__(self, account_name, password):
         super().__init__(account_name, password)
+        self.__account_name =account_name
         self.__id_account = 0
         self.__book_collection_list = []
         self.__cart_list = []
         self.__coin = 0
         self.__payment_history_list = []
         self.__coin_transaction_history_list = []
+
+    @property
+    def account_name(self):
+        return self.__account_name
 
     @property
     def id_account(self):
@@ -79,11 +84,16 @@ class Reader(Account):
 class Writer(Account):
     def __init__(self, account_name, password):
         super().__init__(account_name, password)
+        self.__account_name = account_name
         self.__id_account = 0
         self.__book_collection_list = []
         self.__coin = 0
         self.__money = 0
         self.__coin_transaction_history_list = []
+
+    @property
+    def account_name(self):
+        return self.__account_name
 
     @property
     def id_account(self):
